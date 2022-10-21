@@ -1,16 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mseyitog <mseyitog@student.42kocaeli.com.  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/12 22:48:38 by mseyitog          #+#    #+#             */
+/*   Updated: 2022/09/12 22:48:48 by mseyitog         ###   ########.tr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-char	*strrchr(const char *s, int c)
+char	*ft_strrchr(const char *str, int c)
 {
-	char	*p;
+	int	i;
+	int	res;
 
-	p = (char *)s;
-	while (*(p++) != 0)
-		;
-	while (*(p--) != (char)c && p != s)
-		;
-	if (p == (char *)s)
+	res = -1;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c % 256)
+			res = i;
+		i++;
+	}
+	if (str[i] == c % 256)
+		res = i;
+	if (res == -1)
 		return (NULL);
 	else
-		return (p);
+		return (&((char *)str)[res]);
 }

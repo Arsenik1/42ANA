@@ -1,81 +1,60 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mseyitog <mseyitog@student.42kocaeli.com.  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/12 22:47:58 by mseyitog          #+#    #+#             */
+/*   Updated: 2022/09/12 22:53:23 by mseyitog         ###   ########.tr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-char	*ft_strnstr(const char	*big, const char *little, size_t len)
+#include "libft.h"
+
+static int	find(const char *haystack, const char *needle,
+		size_t len, size_t hay_len)
 {
 	size_t	i;
-	size_t	j;
 
 	i = 0;
-	j = 0;
-	while (big[i] && i < len)
+	while (haystack[i] && needle[i] && i < hay_len)
 	{
-		if(little[j] == '\0')
-			return ((char *)&big[i - j]);
-		if(big[i] == little[j])
-			j++;
-		else
-			j = 0;
+		if (haystack[i] != needle[i])
+			return (-1);
+		i++;
+	}
+	if (i == len)
+		return (1);
+	else
+		return (-1);
+}
+
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+{
+	size_t	i;
+	size_t	count;
+	int		res;
+
+	i = 0;
+	count = 0;
+	if (needle[0] == 0)
+		return ((char *)haystack);
+	if (len <= 0)
+		return (0);
+	while (needle[count])
+		count++;
+	while (haystack[i] && i < len)
+	{
+		if (haystack[i] == needle[0])
+		{
+			res = find(&haystack[i], needle, count, len - i);
+			if (res == 1)
+				return (&((char *)haystack)[i]);
+		}
 		i++;
 	}
 	return (NULL);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// char	*ft_strnstr(const char	*big, const char *little, size_t len)
-// {
-// 	size_t	i;
-// 	size_t	j;
-
-// 	i = 0;
-// 	while (big[i] && i < len)
-// 	{
-// 		j = 0;
-// 		while (little[j] && big[i + j] && little[j] == big[i + j] && i + j < len)
-// 			j++;
-// 		if (little[j] == '\0')
-// 			return ((char *)&big[i]);
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
